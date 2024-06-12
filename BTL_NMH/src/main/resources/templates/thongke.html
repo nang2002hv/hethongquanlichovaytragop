@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thống kê dư nợ khách hàng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho sidebar */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            /* Độ rộng của sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            /* Màu nền của sidebar */
+            padding-top: 20px;
+        }
+
+        /* Định dạng cho các liên kết trong sidebar */
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            /* Màu chữ */
+            display: block;
+        }
+
+        /* Định dạng cho các liên kết khi hover */
+        .sidebar a:hover {
+            background-color: #495057;
+            /* Màu nền khi hover */
+        }
+
+        /* Định dạng cho phần nội dung chính */
+        .content {
+            margin-left: 250px;
+            /* Độ rộng của sidebar */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <a th:href="@{/doitac/quanlidoitac}">Quản lí đối tác</a>
+    <a th:href="@{/thongke/thongkeduno}">Thống kê</a>
+</div>
+<div class="container">
+    <h2 class="my-4">Thống kê thông tin khách hàng</h2>
+    <!-- Nút bấm Thống kê theo dư nợ -->
+    <form th:action="@{/thongke/thongkeduno}" method="post">
+        <button type="submit" class="btn btn-primary mb-4">Thống kê theo dư nợ</button>
+    </form>
+    <!-- Bảng thống kê thông tin khách hàng -->
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Tên Khách hàng</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Email</th>
+            <th scope="col">Công việc</th>
+            <th scope="col">Thu nhập</th>
+            <th scope="col">Số CMND</th>
+            <th scope="col">Số dư nợ</th>
+            <th scope="col">Xem</th> <!-- Thêm cột "Xem" -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Dùng thymeleaf để lặp qua danh sách khách hàng và tạo dòng cho mỗi khách hàng -->
+        <tr th:each="khachHang, iterStat : ${session.khachHangList}">
+            <td th:text="${iterStat.count}"></td> <!-- Số thứ tự -->
+            <td th:text="${khachHang.fullName}"></td> <!-- Tên khách hàng -->
+            <td th:text="${khachHang.sdt}"></td> <!-- Số điện thoại -->
+            <td th:text="${khachHang.email}"></td> <!-- Email -->
+            <td th:text="${khachHang.congViec}"></td> <!-- Công việc -->
+            <td th:text="${khachHang.thuNhap} + ' vnd'"></td> <!-- Thu nhập -->
+            <td th:text="${khachHang.cmnd}"></td> <!-- Số CMND -->
+            <td th:text="${khachHang.soduno} +' vnd'"></td> <!-- Số dư nợ -->
+            <td><a th:href="@{'/thongke/xem?id=' + ${khachHang.id}}"
+                   class="btn btn-sm btn-info">Xem</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS (Optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

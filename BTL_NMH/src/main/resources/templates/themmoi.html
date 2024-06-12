@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thêm mới đối tác</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho sidebar */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            /* Độ rộng của sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            /* Màu nền của sidebar */
+            padding-top: 20px;
+        }
+
+        /* Định dạng cho các liên kết trong sidebar */
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            /* Màu chữ */
+            display: block;
+        }
+
+        /* Định dạng cho các liên kết khi hover */
+        .sidebar a:hover {
+            background-color: #495057;
+            /* Màu nền khi hover */
+        }
+
+        /* Định dạng cho phần nội dung chính */
+        .content {
+            margin-left: 250px;
+            /* Độ rộng của sidebar */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <a th:href="@{/doitac/quanlidoitac}">Quản lí đối tác</a>
+    <a th:href="@{/thongke/thongkeduno}">Thống kê</a>
+</div>
+<div class="container">
+    <h2 class="my-4">Thêm mới dữ liệu vào bảng</h2>
+    <button onclick="goBack()" class="btn btn-secondary">Back</button>
+    <form action="/doitac/create" method="POST"> <!-- Thay đổi action để gửi dữ liệu đến hàm thêm mới -->
+        <div class="form-group">
+            <label for="address">Địa chỉ:</label>
+            <input type="text" class="form-control" id="address" name="address">
+        </div>
+        <div class="form-group">
+            <label for="name">Tên:</label>
+            <input type="text" class="form-control" id="name" name="name">
+        </div>
+        <div class="form-group">
+            <label for="company">Tên công ty:</label>
+            <input type="text" class="form-control" id="company" name="company">
+        </div>
+        <div class="form-group">
+            <label for="total_payment">Tổng tiền trả:</label>
+            <input type="text" class="form-control" id="total_payment" name="total_payment">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone</label> <!-- Thay đổi id của input này thành "phone" -->
+            <input type="text" class="form-control" id="phone" name="phone">
+        </div>
+        <div class="form-group">
+            <label for="total_loan">Tổng tiền vay:</label>
+            <input type="text" class="form-control" id="total_loan" name="total_loan">
+        </div>
+        <button type="submit" class="btn btn-primary">Thêm mới</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS (Optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Function để trở về trang trước đó
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lí Hợp đồng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho sidebar */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            /* Độ rộng của sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            /* Màu nền của sidebar */
+            padding-top: 20px;
+        }
+
+        /* Định dạng cho các liên kết trong sidebar */
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            /* Màu chữ */
+            display: block;
+        }
+
+        /* Định dạng cho các liên kết khi hover */
+        .sidebar a:hover {
+            background-color: #495057;
+            /* Màu nền khi hover */
+        }
+
+        /* Định dạng cho phần nội dung chính */
+        .content {
+            margin-left: 250px;
+            /* Độ rộng của sidebar */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <a th:href="@{/khachhang/quanlikhachhang}">Quản lí khách hàng</a>
+</div>
+<div class="container">
+    <h2 class="my-4">Quản lí Hợp đồng</h2>
+    <button onclick="goBack()" class="btn btn-secondary">Back</button>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Mã hợp đồng</th>
+            <th scope="col">Ngày kí</th>
+            <th scope="col">Thời hạn thanh toán</th>
+            <th scope="col">Số tiền vay</th>
+            <th scope="col">Số tiền trả trước</th>
+            <th scope="col">Lãi suất</th>
+            <th scope="col">Thanh toán</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Dùng thymeleaf để lặp qua danh sách hợp đồng và tạo dòng cho mỗi hợp đồng -->
+        <tr th:each="hopDong, iterStat : ${session.hopDongList}">
+            <td th:text="${iterStat.count}"></td> <!-- Số thứ tự -->
+            <td th:text="${hopDong.maHD}"></td> <!-- Mã hợp đồng -->
+            <td th:text="${hopDong.ngayki}"></td> <!-- Ngày kí -->
+            <td th:text="${hopDong.thoiHanThanhToan} + ' tháng'"> </td> <!-- Thời hạn thanh toán -->
+            <td th:text="${hopDong.soTienVay} +' vnd'"></td> <!-- Số tiền vay -->
+            <td th:text="${hopDong.soTienTraTruoc} +' vnd'"></td> <!-- Số tiền trả trước -->
+            <td th:text="${hopDong.laiSuat}"></td> <!-- Lãi suất -->
+            <td><a class="btn btn-primary" th:href="@{/thanh-toan/hopdong(id=${hopDong.id})}">Thanh toán</a></td> <!-- Nút thanh toán -->
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Bootstrap JS (Optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Function để trở về trang trước đó
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Bootstrap Table Example</title>-->
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <style>-->
+<!--        /* Đảm bảo bảng nằm ở giữa màn hình */-->
+<!--        .center-table {-->
+<!--            margin: auto;-->
+<!--        }-->
+
+<!--        /* Định dạng cho phần đầu bảng */-->
+<!--        .header {-->
+<!--            display: flex;-->
+<!--            justify-content: space-between;-->
+<!--            align-items: center;-->
+<!--            margin-bottom: 20px;-->
+<!--        }-->
+<!--    </style>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div class="container">-->
+<!--        &lt;!&ndash; Phần tiêu đề &ndash;&gt;-->
+<!--        <div class="row" style="margin: 20px 0px">-->
+<!--            <div class="col-md-6">-->
+<!--                &lt;!&ndash; Hiển thị thông tin quản lí &ndash;&gt;-->
+<!--                <div>-->
+<!--                    <span>Mã quản lí: <span th:text="${session.nhanvien.maNv}"></span></span>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <span>Tên quản lí: <span th:text="${session.nhanvien.getFullName()}"></span></span>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-md-6">-->
+<!--                &lt;!&ndash; Ô nhập và nút tìm kiếm &ndash;&gt;-->
+<!--                <form th:action="@{/doitac/search}" method="GET">-->
+<!--                <div class="input-group">-->
+
+<!--                    <input name="timkiem" type="text" class="form-control" placeholder="Tìm kiếm...">-->
+<!--                    <div class="input-group-append">-->
+<!--                        <button class="btn btn-primary" type="submit">Tìm kiếm</button>-->
+<!--                    </div>-->
+
+<!--                </div>-->
+<!--                </form>-->
+<!--            </div>-->
+
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Bảng dữ liệu &ndash;&gt;-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-12">-->
+<!--                <table class="table table-striped center-table">-->
+<!--                    <thead>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">ID</th>-->
+<!--                            <th scope="col">Địa chỉ</th>-->
+<!--                            <th scope="col">Tên</th>-->
+<!--                            <th scope="col">Tên công ty</th>-->
+<!--                            <th scope="col">Số điện thoại</th>-->
+<!--                            <th scope="col">Tổng tiền trả</th>-->
+<!--                            <th scope="col">Tổng tiền vay</th>-->
+<!--                            <th scope="col">Cập nhật</th>-->
+<!--                        </tr>-->
+<!--                    </thead>-->
+<!--                    <tbody>-->
+<!--                        &lt;!&ndash; Lặp qua danh sách đối tác và tạo hàng trong bảng &ndash;&gt;-->
+<!--                        <tr th:each="doiTac : ${session.doiTacList}">-->
+<!--                            &lt;!&ndash; Thông tin của mỗi đối tác &ndash;&gt;-->
+<!--                            <td th:text="${doiTac.id}"></td>-->
+<!--                            <td th:text="${doiTac.diaChi}"></td>-->
+<!--                            <td th:text="${doiTac.fullName}"></td>-->
+<!--                            <td th:text="${doiTac.tenCongTy}"></td>-->
+<!--                            <td th:text="${doiTac.sdt}"></td>-->
+<!--                            <td th:text="${doiTac.tongTienTra}"></td>-->
+<!--                            <td th:text="${doiTac.tongTienVay}"></td>-->
+<!--                            &lt;!&ndash; Nút cập nhật &ndash;&gt;-->
+<!--                            <td><a class="btn btn-primary" th:href="@{/doitac/update(id=${doiTac.id})}">Cập nhật</a></td>-->
+<!--                        </tr>-->
+<!--                    </tbody>-->
+<!--                </table>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Nút thêm mới &ndash;&gt;-->
+<!--        <div class="row" style="margin: 40px 10px">-->
+<!--            <div class="col-md-12 text-right">-->
+<!--                <a class="btn btn-primary" th:href="@{/doitac/create}">Thêm mới</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Bootstrap JS (Optional) &ndash;&gt;-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--</body>-->
+
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lí đối tác</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho sidebar */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            /* Độ rộng của sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            /* Màu nền của sidebar */
+            padding-top: 20px;
+        }
+
+        /* Định dạng cho các liên kết trong sidebar */
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            /* Màu chữ */
+            display: block;
+        }
+
+        /* Định dạng cho các liên kết khi hover */
+        .sidebar a:hover {
+            background-color: #495057;
+            /* Màu nền khi hover */
+        }
+
+        /* Định dạng cho phần nội dung chính */
+        .content {
+            margin-left: 250px;
+            /* Độ rộng của sidebar */
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Sidebar -->
+<div class="sidebar">
+    <a th:href="@{/doitac/quanlidoitac}">Quản lí đối tác</a>
+    <a th:href="@{/thongke/thongkeduno}">Thống kê</a>
+</div>
+
+<!-- Phần nội dung chính -->
+<div class="content">
+    <div class="container">
+        <!-- Phần tiêu đề -->
+        <div class="row" style="margin: 20px 0px">
+            <div class="col-md-6">
+                <!-- Hiển thị thông tin quản lí -->
+                <div>
+                    <span>Mã quản lí: <span th:text="${session.nhanvien.maNv}"></span></span>
+                </div>
+                <div>
+                    <span>Tên quản lí: <span th:text="${session.nhanvien.getFullName()}"></span></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Ô nhập và nút tìm kiếm -->
+                <form th:action="@{/doitac/search}" method="GET">
+                    <div class="input-group">
+                        <input name="timkiem" type="text" class="form-control" placeholder="Tìm kiếm..." th:value="${session.timkiem}">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bảng dữ liệu -->
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-striped center-table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Địa chỉ</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Tên công ty</th>
+                        <th scope="col">Số điện thoại</th>
+                        <th scope="col">Tổng tiền trả</th>
+                        <th scope="col">Tổng tiền vay</th>
+                        <th scope="col">Cập nhật</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Lặp qua danh sách đối tác và tạo hàng trong bảng -->
+                    <tr th:each="doiTac : ${session.doiTacList}">
+                        <!-- Thông tin của mỗi đối tác -->
+                        <td th:text="${doiTac.id}"></td>
+                        <td th:text="${doiTac.diaChi}"></td>
+                        <td th:text="${doiTac.fullName}"></td>
+                        <td th:text="${doiTac.tenCongTy}"></td>
+                        <td th:text="${doiTac.sdt}"></td>
+                        <td th:text="${doiTac.tongTienTra} + ' vnd'"></td>
+                        <td th:text="${doiTac.tongTienVay} + ' vnd'"></td>
+                        <!-- Nút cập nhật -->
+                        <td><a class="btn btn-primary" th:href="@{/doitac/update(id=${doiTac.id})}">Cập nhật</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Nút thêm mới -->
+        <div class="row" style="margin: 40px 10px">
+            <div class="col-md-12 text-right">
+                <a class="btn btn-primary" th:href="@{/doitac/create}">Thêm mới</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (Optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

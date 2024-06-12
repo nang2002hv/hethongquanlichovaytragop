@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Data</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho sidebar */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            /* Độ rộng của sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            /* Màu nền của sidebar */
+            padding-top: 20px;
+        }
+
+        /* Định dạng cho các liên kết trong sidebar */
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            /* Màu chữ */
+            display: block;
+        }
+
+        /* Định dạng cho các liên kết khi hover */
+        .sidebar a:hover {
+            background-color: #495057;
+            /* Màu nền khi hover */
+        }
+
+        /* Định dạng cho phần nội dung chính */
+        .content {
+            margin-left: 250px;
+            /* Độ rộng của sidebar */
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <a th:href="@{/doitac/quanlidoitac}">Quản lí đối tác</a>
+        <a th:href="@{/thongke/thongkeduno}">Thống kê</a>
+    </div>
+    <div class="container">
+        <h2 class="my-4">Update Data</h2>
+        <!-- Thêm nút để trở về trang trước -->
+        <button onclick="goBack()" class="btn btn-secondary">Back</button>
+        <form action="/doitac/update" method="POST">
+            <input type="hidden" id="id" name="id" th:value="${session.doiTac.id}">
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" class="form-control" id="address" name="address"
+                    th:value="${session.doiTac.diaChi}">
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="name"
+                    th:value="${session.doiTac.fullName}">
+            </div>
+            <div class="form-group">
+                <label for="company">Company:</label>
+                <input type="text" class="form-control" id="company" name="company"
+                    th:value="${session.doiTac.tenCongTy}">
+            </div>
+            <div class="form-group">
+                <label for="total_payment">Total Payment:</label>
+                <input type="text" class="form-control" id="total_payment" name="total_payment"
+                    th:value="${session.doiTac.tongTienTra}">
+            </div>
+            <div class="form-group">
+                <label for="total_debt">Phone</label>
+                <input type="text" class="form-control" id="total_debt" name="phone"
+                    th:value="${session.doiTac.sdt}">
+            </div>
+            <div class="form-group">
+                <label for="total_loan">Total Loan:</label>
+                <input type="text" class="form-control" id="total_loan" name="total_loan"
+                    th:value="${session.doiTac.tongTienVay}">
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS (Optional) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Function để trở về trang trước đó
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

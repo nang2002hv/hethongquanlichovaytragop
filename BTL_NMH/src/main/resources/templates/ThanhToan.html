@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán hợp đồng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho sidebar */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            /* Độ rộng của sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            /* Màu nền của sidebar */
+            padding-top: 20px;
+        }
+
+        /* Định dạng cho các liên kết trong sidebar */
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            /* Màu chữ */
+            display: block;
+        }
+
+        /* Định dạng cho các liên kết khi hover */
+        .sidebar a:hover {
+            background-color: #495057;
+            /* Màu nền khi hover */
+        }
+
+        /* Định dạng cho phần nội dung chính */
+        .content {
+            margin-left: 250px;
+            /* Độ rộng của sidebar */
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <a th:href="@{/khachhang/quanlikhachhang}">Quản lí khách hàng</a>
+</div>
+<button onclick="goBack()" class="btn btn-secondary">Back</button>
+    <form action="/thanh-toan/thanhtoan" method="post">
+        <div class="container">
+            <h2 class="my-4">Thanh toán hợp đồng</h2>
+            <a class="btn btn-secondary" th:href="@{/hopdong/xemhopdong(id=${session.khachHang.id})}">back</a>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td scope="row">Id:</td>
+                        <td>
+                            <input type="text" class="form-control" name="id" th:value="${session.hopDong.id}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Mã hợp đồng:</td>
+                        <td>
+                            <input type="text" class="form-control" name="maHopDong" th:value="${session.hopDong.maHD}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Tên Khách hàng:</td>
+                        <td th:text="${session.khachHang.fullName}"></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Số tiền còn nợ:</td>
+                        <td>
+                            <input type="text" class="form-control" name="soTienNo" th:value="${session.thanhToan.soTienNo}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Số tiền lãi:</td>
+                        <td>
+                            <input type="text" class="form-control" name="soTienLai" th:value="${session.thanhToan.soTienLai}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Tài sản thế chấp:</td>
+                        <td>
+                            <input type="text" class="form-control" name="taiSanBaoDam" th:value="${session.taiSanBaoDam}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td scope="row">Sản phẩm đã mua:</td>
+                        <td>
+                            <input type="text" class="form-control" name="sanPhamDaMua" th:value="${session.sanPhamDaMua}" readonly>
+                        </td>
+                    </tr>
+                    <!-- Checkbox cho phương thức thanh toán -->
+                    <tr>
+                        <td scope="row">Phương thức thanh toán:</td>
+                        <td>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="chuyenKhoan" name="phuongThucThanhToan" value="chuyenKhoan" onchange="uncheckOther(this)">
+                                <label class="form-check-label" for="chuyenKhoan">Chuyển khoản</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="tienMat" name="phuongThucThanhToan" value="tienMat" onchange="uncheckOther(this)">
+                                <label class="form-check-label" for="tienMat">Tiền mặt</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Ô nhập số tiền đóng và nút thanh toán -->
+                    <tr>
+                        <td scope="row">Số tiền đóng:</td>
+                        <td>
+                            <input type="number" class="form-control" name="soTienDong" placeholder="Nhập số tiền">
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary">Thanh toán</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    
+
+<!-- Bootstrap JS (Optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Function để trở về trang trước đó
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+<script>
+    function uncheckOther(checkbox) {
+        var checkboxes = document.querySelectorAll('input[name="phuongThucThanhToan"]');
+        checkboxes.forEach(function (item) {
+            if (item !== checkbox && item.checked) {
+                item.checked = false;
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lí khách hàng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        /* Đảm bảo bảng nằm ở giữa màn hình */
+        .center-table {
+            margin: auto;
+        }
+
+        /* Định dạng cho phần đầu bảng */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        /* Định dạng cho sidebar */
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            /* Độ rộng của sidebar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #343a40;
+            /* Màu nền của sidebar */
+            padding-top: 20px;
+        }
+
+        /* Định dạng cho các liên kết trong sidebar */
+        .sidebar a {
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #fff;
+            /* Màu chữ */
+            display: block;
+        }
+
+        /* Định dạng cho các liên kết khi hover */
+        .sidebar a:hover {
+            background-color: #495057;
+            /* Màu nền khi hover */
+        }
+
+        /* Định dạng cho phần nội dung chính */
+        .content {
+            margin-left: 250px;
+            /* Độ rộng của sidebar */
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="sidebar">
+    <a th:href="@{/khachhang/quanlikhachhang}">Quản lí khách hàng</a>
+</div>
+<div class="container">
+    <!-- Ô nhập và nút tìm kiếm -->
+    <div class="row justify-content-center" style="margin: 20px 0px;">
+        <div class="col-md-6">
+            <!-- Form tìm kiếm -->
+            <form th:action="@{/khachhang/quanlikhachhang}" method="POST">
+                <div class="input-group">
+
+                    <input name="timkiem" type="text" class="form-control" placeholder="Tìm kiếm...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">Tìm kiếm</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bảng dữ liệu -->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped center-table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Địa chỉ</th>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Công việc</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Thu nhập</th>
+                    <th scope="col">CMND</th>
+                    <th scope="col">Chức năng</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <!-- Lặp qua danh sách khách hàng và tạo hàng trong bảng -->
+                <tr th:each="khachHang, iterStat : ${session.khachHangList}">
+                    <!-- Thông tin của mỗi khách hàng -->
+                    <td th:text="${khachHang.id}"></td>
+                    <td th:text="${khachHang.diaChi}"></td>
+                    <td th:text="${khachHang.fullName}"></td>
+                    <td th:text="${khachHang.congViec}"></td>
+                    <td th:text="${khachHang.sdt}"></td>
+                    <td th:text="${khachHang.thuNhap} + ' vnd'"></td>
+                    <td th:text="${khachHang.cmnd}"></td>
+
+                    <!-- Nút cập nhật -->
+                    <td><a class="btn btn-primary" th:href="@{/hopdong/xemhopdong(id=${khachHang.id})}">Xem Hợp Đồng</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (Optional) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
